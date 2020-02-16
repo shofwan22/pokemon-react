@@ -1,6 +1,8 @@
 import React, {Component,Fragment} from 'react';
 import { connect } from 'react-redux';
+import { fetchAllPokemon } from '../../../actions';
 import './PokemonList.css';
+import * as $ from 'jquery';
 import Pokemon from '../../../components/Pokemon/Pokemon';
 import PokemonTotal from '../../../components/PokemonTotal/PokemonTotal';
 
@@ -8,12 +10,25 @@ class PokemonList extends Component{
 
     constructor(props) {
         super(props);
-
+        this.state = {
+            offset: 0 
+        }
         this.handleDetail = this.handleDetail.bind(this);
     }
 
     handleDetail = (namePokemon) => {
         this.props.history.push(`/pokemon-detail/${namePokemon}`)
+    }
+
+    componentDidMount() {
+        $(window).scroll(function () {
+            if ($(window).scrollTop() === $(document).height() - $(window).height()) {
+                this.setState({
+                    offset: this.state.offset + 20
+                })
+                this.props.getNextPokemon(this.state.offset)
+            }
+        }.bind(this));
     }
 
     render() {
@@ -45,4 +60,11 @@ const mapStateToProps = state => {
     
 };
 
-export default connect(mapStateToProps)(PokemonList);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getNextPokemon: (offset) => dispatch(fetchAllPokemon(offset))
+    }
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(PokemonList);

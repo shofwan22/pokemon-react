@@ -164,9 +164,14 @@ class PokemonDetail extends Component {
                                             </div>
                                             <div className="card-body">
                                             {
-                                                details.types.map((t, i) => {
-                                                    return <p className="content-body" key={i}>- {t.type['name']}</p>
-                                                })
+                                                Array.isArray(details.types) ? (
+                                                    details.types.map((t, i) => {
+                                                        return <p className="content-body" key={i}>- {t.type['name']}</p>
+                                                    })
+                                                ) : (
+                                                    <p className="content-body">- {details.types}</p>
+                                                )
+                                                
                                             }
                                                 
                                             </div>
@@ -215,7 +220,6 @@ PokemonDetail.propTypes = {
 }
 
 const mapStateToProps = state => {
-    console.log(state)
     return {
         details: state.pokemons.details,
         catchPokemon: state.pokemons.catch

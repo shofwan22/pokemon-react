@@ -3,9 +3,9 @@ import axios from 'axios';
 
 const apiUrl = 'https://pokeapi.co/api/v2';
 
-export const fetchAllPokemon = () => {
+export const fetchAllPokemon = (offset = 0) => {
     return (dispatch) => {
-        return axios.get(`${apiUrl}/pokemon`)
+        return axios.get(`${apiUrl}/pokemon?offset=${offset}&limit=20`)
             .then(response => {
                 dispatch(fetchPokemon(response.data))
             })
@@ -47,7 +47,7 @@ export const fetchDetail = (details) => {
                 images: details.sprites['front_default'],
                 height: details.height,
                 weight: details.weight,
-                types: details.types,
+                types: details.types.length > 1 ? details.types : details.types[0].type.name,
                 stats: details.stats
             }
         }

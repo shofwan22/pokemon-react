@@ -12,7 +12,7 @@ export default function pokemonReducer(state = globalState, action) {
         case FETCH_POKEMON:
             return {
                 ...state,
-                pokemons: action.payload.pokemons,
+                pokemons: state.pokemons.concat(action.payload.pokemons),
                 total: action.payload.total
             } 
         case FETCH_POKEMON_DETAIL:

@@ -37,7 +37,6 @@ class MyPokemon extends Component {
 }
 
 const mapStateToProps = state => {
-    console.log(state)
     return {
         catchPokemon: state.pokemons.catch
     }

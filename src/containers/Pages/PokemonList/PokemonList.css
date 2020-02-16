@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
-@media (max-width: 1125px) {
+@media (min-width: 411px) and (max-width: 1125px) {
     .card-list-img {
         width: 100%;
     }
