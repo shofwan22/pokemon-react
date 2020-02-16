@@ -2,6 +2,7 @@ import React, {Component,Fragment} from 'react';
 import { connect } from 'react-redux';
 import './PokemonList.css';
 import Pokemon from '../../../components/Pokemon/Pokemon';
+import PokemonTotal from '../../../components/PokemonTotal/PokemonTotal';
 
 class PokemonList extends Component{
 
@@ -18,12 +19,13 @@ class PokemonList extends Component{
     render() {
         return(
             <Fragment>
-                <div className="row">
+                <div className="row">                    
+                    <PokemonTotal total={this.props.total} />                                    
                     {
                     this.props.pokemons &&
                     this.props.pokemons.map((pokemon, i) => {                        
                         return (
-                            <Pokemon key={i} data={pokemon} goDetail={this.handleDetail} /> 
+                            <Pokemon key={i} data={pokemon} goDetail={this.handleDetail} nickname=''/> 
                         );
                     })
                     }
@@ -37,8 +39,10 @@ class PokemonList extends Component{
 
 const mapStateToProps = state => {
     return {
-        pokemons: state.pokemons.pokemons
+        pokemons: state.pokemons.pokemons,
+        total: state.pokemons.total
     };
+    
 };
 
 export default connect(mapStateToProps)(PokemonList);

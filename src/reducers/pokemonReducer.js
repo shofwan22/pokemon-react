@@ -1,8 +1,10 @@
-import { FETCH_POKEMON, FETCH_POKEMON_DETAIL } from '../actions/types';
+import { FETCH_POKEMON, FETCH_POKEMON_DETAIL, CATCH_POKEMON } from '../actions/types';
 
 const globalState = {
     pokemons: [],
-    details: []
+    total: '',
+    details: [],
+    catch: []
 }
 
 export default function pokemonReducer(state = globalState, action) {
@@ -10,12 +12,18 @@ export default function pokemonReducer(state = globalState, action) {
         case FETCH_POKEMON:
             return {
                 ...state,
-                pokemons: action.payload.pokemons
+                pokemons: action.payload.pokemons,
+                total: action.payload.total
             } 
         case FETCH_POKEMON_DETAIL:
             return{
                 ...state,
                 details: action.payload.details
+            }
+        case CATCH_POKEMON:
+            return{
+                ...state,
+                catch: state.catch.concat(action.payload.pokemonCatch)
             }
         default:
             return state;

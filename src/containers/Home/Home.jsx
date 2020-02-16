@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import PokemonList from '../Pages/PokemonList/PokemonList';
 import PokemonDetail from '../Pages/PokemonDetail/PokemonDetail';
 import './Home.css';
+import MyPokemon from '../Pages/MyPokemon/MyPokemon';
 
 class Home extends Component {
     render() {
@@ -23,7 +24,7 @@ class Home extends Component {
                                         <Link className="nav-link" to="/">Home</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link className="nav-link" to="/">My Pokemon</Link>
+                                        <Link className="nav-link" to="/myPokemon">My Pokemon</Link>
                                     </li>
                                 </ul>
                             </div>
@@ -31,6 +32,7 @@ class Home extends Component {
                         <div className="container-fluid content">
                             <Route path="/" exact component={PokemonList} />
                             <Route path="/pokemon-detail/:namePokemon" component={PokemonDetail} />
+                            <Route path="/myPokemon" component={MyPokemon} />
                         </div>
                     </div>
                 </Fragment>

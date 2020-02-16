@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
+@media (max-width: 1125px) {
+    .card-list-img {
+        width: 100%;
+    }
+}
+
 div .row{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
@@ -17,4 +23,12 @@ div .row{
 .card-title{
     margin-bottom: 0!important;
     text-transform: capitalize;
+}
+
+.card-nickname {
+    width: 100%;
+}
+
+.card-nickname p {
+    margin-bottom: 0px;
 }

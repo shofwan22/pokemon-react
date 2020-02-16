@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchPokemonDetail } from '../../../actions';
+import { fetchPokemonDetail, catchPokemon } from '../../../actions';
 import './PokemonDetail.css';
 import Loader from 'react-loader-spinner';
 
@@ -9,15 +9,59 @@ class PokemonDetail extends Component {
     constructor(props){
         super(props);
         this.state = {
-            isLoading: true
+            isLoading: true,
+            catch: false,
+            caught: false,
+            nickname: ''
         }
 
         this.addDefaultImage = this.addDefaultImage.bind(this);
     }
-    
 
     addDefaultImage = (e) => {
         e.target.src = 'https://via.placeholder.com/200/FFFFFF/000000/?text=No Image'
+    }
+
+    handleCatch = (e) => {
+        this.setState({
+            catch: true
+        })
+    }
+
+    handleInput = (e) => {
+        this.setState({
+            nickname: e.target.value
+        })
+    }
+
+    handleAdd = (e) => {
+        if(this.state.nickname !== ''){
+            this.props.handleSave(this.props.details.id, this.props.details.name, this.state.nickname);
+            this.setState({
+                caught: true,
+                nickname: this.state.nickname
+            })
+            alert('Catch Pokemon Success');            
+        }else{
+            alert('Nickname cannot be empty')
+        }
+    }
+
+    handleCancel = () => {
+        this.setState({
+            catch: false
+        })
+    }
+
+    checkCatch = () => {
+        this.props.catchPokemon.map((c) => {
+            if (c.name === this.props.match.params.namePokemon) {
+                this.setState({
+                    caught: true,
+                    nickname: c.nickname
+                })
+            }
+        })
     }
    
     componentDidMount(){
@@ -27,11 +71,11 @@ class PokemonDetail extends Component {
                 isLoading: false
             })
         }, 2000)
+        this.checkCatch();
     }
 
     render() {
         const {details} = this.props;
-        console.log(details)
         return(
             <Fragment>
                 {this.state.isLoading ? (
@@ -54,9 +98,36 @@ class PokemonDetail extends Component {
                             <div className="card-body bg-success">
                                 <h4 className="card-title card-name">{details.name}</h4>                                
                             </div>
-                            <div className="card-footer">
-                                <button type="button" className="btn btn-danger btn-block">Catch</button>
-                            </div>
+                                                            
+                                {
+                                    !this.state.caught ? (
+                                        <div className="card-footer">
+                                        {
+                                            !this.state.catch && 
+                                            <button type="button" className="btn btn-danger btn-block" onClick={this.handleCatch}>Catch</button>
+                                        }
+                                        {
+                                            this.state.catch &&
+                                            <div>
+                                                <div className="form-group">
+                                                    <input type="text" name="nickname" className="form-control" placeholder="Nickname Pokemon" onChange={this.handleInput}/>
+                                                </div>
+                                                <div className="form-group">
+                                                    <button type="submit" className="btn btn-success" style={{marginRight: '5px'}} onClick={this.handleAdd}>Add Pokemon</button>
+                                                    <button type="submit" className="btn btn-danger" onClick={this.handleCancel}>Cancel</button>
+                                                </div>
+                                            </div>
+                                        }   
+                                        </div>
+                                    ) : (
+                                        <div className="card-footer">
+                                            <h4 className="card-title">Nickname : </h4>
+                                            <p>{this.state.nickname}</p>
+                                        </div> 
+                                    )                               
+                                 
+                                 }                                                                 
+                            
                         </div>
                     </div>
                     <div className="col-md-9">
@@ -113,7 +184,7 @@ class PokemonDetail extends Component {
 
                                                        return (
                                                            <Fragment key={i}>
-                                                               <p className="mb-1 body-content">{s.stat['name']}</p>
+                                                               <p className="mb-1 body-stat">{s.stat['name']}</p>
                                                                <div className="progress">
                                                                    <div className="progress-bar" role="progressbar" style={{ width: progress }}>{s.base_stat}</div>
                                                                </div>
@@ -144,14 +215,17 @@ PokemonDetail.propTypes = {
 }
 
 const mapStateToProps = state => {
+    console.log(state)
     return {
-        details: state.pokemons.details
+        details: state.pokemons.details,
+        catchPokemon: state.pokemons.catch
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        getDetail: () => dispatch(fetchPokemonDetail(ownProps.match.params.namePokemon)) 
+        getDetail: () => dispatch(fetchPokemonDetail(ownProps.match.params.namePokemon)),
+        handleSave: (id, name, nickname) => dispatch(catchPokemon(id, name, nickname)) 
     }
 }
 
