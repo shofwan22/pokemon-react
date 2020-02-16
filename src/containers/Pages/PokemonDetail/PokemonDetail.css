@@ -1,0 +1,25 @@
+.row-detail {
+    margin-bottom: 30px;
+}
+
+.image-pokemon {
+    width: 200px;
+    height: 200px;
+}
+
+.card-left, .card-detail {
+    margin-bottom: 20px;
+}
+
+.card-detail .card-body {
+    height: 120px;
+}
+
+.card-name {
+    color: white;
+    text-align: center;
+}
+
+.content-body {
+    text-transform: capitalize;
+}

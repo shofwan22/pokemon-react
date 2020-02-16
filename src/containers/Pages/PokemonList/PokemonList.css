@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+div .row{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.pokemon-card {
+    margin-bottom: 20px;
+}
+
+.pokemon-card:hover {
+    transform: scale(1.1);
+    box-shadow: 5px 5px grey;
+    cursor: pointer;
+}
+
+.card-title{
+    margin-bottom: 0!important;
+    text-transform: capitalize;
+}
